@@ -1,4 +1,5 @@
-﻿using DSharpPlus;
+﻿using DiscordBotTutorial.Commands;
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using Newtonsoft.Json;
@@ -29,7 +30,7 @@ namespace IguanaBot
                 TokenType = TokenType.Bot,
                 AutoReconnect = true,
                 LogLevel = LogLevel.Debug,
-                UseInternalLogHandler = true
+                UseInternalLogHandler = true,
             };
 
             Client = new DiscordClient(config);
@@ -40,10 +41,14 @@ namespace IguanaBot
             {
                 StringPrefixes = new string[] { configJason.Prefix },
                 EnableMentionPrefix = true,
-                EnableDms = false
+                DmHelp = true,
             };
 
             Commands = Client.UseCommandsNext(commandsConfig);
+
+            Commands.RegisterCommands<FunCommands>();
+
+            var test = LeagueFiveVersusFiveMatchMaker.GetOneChampionFromEachRole();
 
             await Client.ConnectAsync();
 

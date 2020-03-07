@@ -8,6 +8,7 @@ namespace IguanaBot
         {
             var iguanaBot = new Bot();
             iguanaBot.RunBotAsync().GetAwaiter().GetResult();
+
         }
     }
 }

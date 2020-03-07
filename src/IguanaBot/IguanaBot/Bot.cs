@@ -1,7 +1,7 @@
-﻿using DiscordBotTutorial.Commands;
-using DSharpPlus;
+﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
+using IguanaBot.Commands;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
@@ -41,14 +41,14 @@ namespace IguanaBot
             {
                 StringPrefixes = new string[] { configJason.Prefix },
                 EnableMentionPrefix = true,
-                DmHelp = true,
+                DmHelp = false,
             };
 
             Commands = Client.UseCommandsNext(commandsConfig);
 
             Commands.RegisterCommands<FunCommands>();
 
-            var test = LeagueFiveVersusFiveMatchMaker.GetOneChampionFromEachRole();
+            var test = LeagueFiveVersusFiveMatchMaker.GetTwoTeamsWithOneChampionFromEachRole();
 
             await Client.ConnectAsync();
 

@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace IguanaBot
 {
     public static class LeagueFiveVersusFiveMatchMaker
     {
-        public static List<List<string>> GetOneChampionFromEachRole()
+        public static List<List<string>> GetTwoTeamsWithOneChampionFromEachRole()
         {
-            // Team one.
-            var teamOne = GetATeam();
-            var teamTwo = GetATeam();
-
+            var teamOne = GetTeamWithOneChampionFromEachRole();
+            var teamTwo = GetTeamWithOneChampionFromEachRole();
             return new List<List<string>>() { teamOne, teamTwo };
         }
 
-        private static List<string> GetATeam()
+        private static List<string> GetTeamWithOneChampionFromEachRole()
         {
             var randomTopIndex = new Random().Next(1, LeagueChampionsPool.Top.Count);
             var randomJungleIndex = new Random().Next(1, LeagueChampionsPool.Jungle.Count);
@@ -24,13 +21,29 @@ namespace IguanaBot
             var randomSupIndex = new Random().Next(1, LeagueChampionsPool.Supports.Count);
 
             var teamOne = new List<string>();
-            teamOne.Add(LeagueChampionsPool.Top[randomTopIndex]);
-            teamOne.Add(LeagueChampionsPool.Jungle[randomJungleIndex]);
-            teamOne.Add(LeagueChampionsPool.Mid[randomMidIndex]);
-            teamOne.Add(LeagueChampionsPool.ADCarries[randomAdIndex]);
-            teamOne.Add(LeagueChampionsPool.Supports[randomSupIndex]);
+            teamOne.Add($"Top: {LeagueChampionsPool.Top[randomTopIndex]}");
+            teamOne.Add($"Jungle: {LeagueChampionsPool.Jungle[randomJungleIndex]}");
+            teamOne.Add($"Mid: {LeagueChampionsPool.Mid[randomMidIndex]}");
+            teamOne.Add($"ADC: {LeagueChampionsPool.ADCarries[randomAdIndex]}");
+            teamOne.Add($"Support: {LeagueChampionsPool.Supports[randomSupIndex]}");
 
-            return teamOne;
+            bool thereIsARepeatedChampion = CheckForRepeatedChamps(teamOne);
+
+            if (thereIsARepeatedChampion)
+                return GetTeamWithOneChampionFromEachRole();
+            else
+                return teamOne;
+        }
+
+        private static bool CheckForRepeatedChamps(List<string> teamOne)
+        {
+            foreach (var champion in teamOne)
+            {
+                if (teamOne.FindAll(x => x == champion).Count > 2)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

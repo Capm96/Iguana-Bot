@@ -1,10 +1,9 @@
 ﻿
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using IguanaBot;
 using System.Threading.Tasks;
 
-namespace DiscordBotTutorial.Commands
+namespace IguanaBot.Commands
 {
     public class FunCommands : BaseCommandModule
     {
@@ -20,20 +19,21 @@ namespace DiscordBotTutorial.Commands
         [Description("Returns pong")]
         public async Task Organizado(CommandContext ctx)
         {
-            var champs = LeagueFiveVersusFiveMatchMaker.GetOneChampionFromEachRole();
-
-            foreach (var team in champs)
+            var teams = LeagueFiveVersusFiveMatchMaker.GetTwoTeamsWithOneChampionFromEachRole();
+            for (int i = 1; i <= teams.Count; i++)
             {
-                foreach (var champ in team)
-                {
-                    await ctx.RespondAsync($"{champ}");
-                }
+                await ctx.RespondAsync($"Time {i} -");
+
+                foreach (var champion in teams[i - 1])
+                    await ctx.RespondAsync($"{champion}");
+
+                if (i < teams.Count)
+                    await ctx.RespondAsync("----------");
             }
         }
 
         [Command("add")]
         [Description("Adds two numbers together")]
-        [RequireRoles(RoleCheckMode.Any, "Moderator", "Owner")]
         public async Task Add(CommandContext ctx,
             [Description("First Number")] int numberOne,
             [Description("Second Number")]int numberTwo)

@@ -35,13 +35,11 @@ namespace IguanaBot.Services.League
                 return teamOne;
         }
 
-        private static bool CheckForRepeatedChamps(List<string> teamOne)
+        public static bool CheckForRepeatedChamps(List<string> teamOne)
         {
             foreach (var champion in teamOne)
-            {
-                if (teamOne.FindAll(x => x == champion).Count > 2)
+                if (teamOne.FindAll(x => x == champion).Count >= 2)
                     return true;
-            }
 
             return false;
         }

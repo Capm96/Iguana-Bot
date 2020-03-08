@@ -1,27 +1,31 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.EventArgs;
 using IguanaBot.Controller.Commands;
-using IguanaBot.Services;
+using IguanaBot.JsonHandler;
 using IguanaBot.Services.JsonHandler;
-using IguanaBot.Services.League;
-using Newtonsoft.Json;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace IguanaBot.Controller
 {
     public class IguanaBot
     {
-        public DiscordClient Client { get; private set; }
+        public DiscordClient DiscordClient { get; private set; }
         public CommandsNextExtension Commands { get; set; }
 
-        public async Task RunBotAsync()
+        public async Task InitializeBot()
         {
-            var configJson = await MyJsonReader.ReadJsonConfig();
+            var configJson = MyJsonReader.GetJsonWithTokens();
 
-            var config = new DiscordConfiguration
+            RegisterDiscordClient(configJson);
+            RegisterCommands(configJson);
+
+            await DiscordClient.ConnectAsync();
+            await Task.Delay(-1);
+        }
+
+        private void RegisterDiscordClient(JsonConfiguration configJson)
+        {
+            var discordConfiguration = new DiscordConfiguration
             {
                 Token = configJson.DiscordToken,
                 TokenType = TokenType.Bot,
@@ -30,31 +34,24 @@ namespace IguanaBot.Controller
                 UseInternalLogHandler = true,
             };
 
-            Client = new DiscordClient(config);
-
-            Client.Ready += OnClientReady;
-
-            var commandsConfig = new CommandsNextConfiguration
-            {
-                StringPrefixes = new string[] { configJson.Prefix },
-                EnableMentionPrefix = true,
-                DmHelp = false,
-            };
-
-            Commands = Client.UseCommandsNext(commandsConfig);
-
-            Commands.RegisterCommands<FunCommands>();
-
-            var test = LeagueFiveVersusFiveMatchMaker.GetTwoTeamsWithOneChampionFromEachRole();
-
-            await Client.ConnectAsync();
-
-            await Task.Delay(-1);
+            DiscordClient = new DiscordClient(discordConfiguration);
         }
 
-        private Task OnClientReady(ReadyEventArgs e)
+        private void RegisterCommands(JsonConfiguration jsonConfig)
         {
-            return Task.CompletedTask;
+            var commandsConfig = new CommandsNextConfiguration
+            {
+                StringPrefixes = new string[] { jsonConfig.Prefix },
+                EnableMentionPrefix = true,
+                DmHelp = false,
+                CaseSensitive = false,
+                IgnoreExtraArguments = true
+            };
+
+            Commands = DiscordClient.UseCommandsNext(commandsConfig);
+            Commands.RegisterCommands<FunCommands>();
+            Commands.RegisterCommands<LeagueCommands>();
+            Commands.RegisterCommands<NasaCommands>();
         }
     }
 }

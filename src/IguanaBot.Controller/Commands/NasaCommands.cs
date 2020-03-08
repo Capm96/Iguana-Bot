@@ -8,23 +8,24 @@ namespace IguanaBot.Controller.Commands
 {
     public class NasaCommands : BaseCommandModule
     {
-        [Command("nasa")]
-        [Description("Retorna a imagem do dia de hoje")]
+        [Command("nasa_hoje")]
+        [Description("Retorna a imagem do dia de hoje.")]
         public async Task Nasa(CommandContext ctx)
         {
-            var nasa = new NasaAPIHandler();
+            var nasa = new NasaImagesProvider();
             nasa.GetImageOfTheDayFromToday();
-            await ctx.Channel.SendFileAsync($@"C:\Users\carlo\Desktop\Applications\nasa2.jpeg").ConfigureAwait(false);
+            await ctx.Channel.SendFileAsync(nasa.LocalImagePath).ConfigureAwait(false);
         }
 
-        [Command("nasa2")]
+        [Command("nasa_dia")]
         [Description("Retorna a imagem do dia selecionado. Formato: ano-dia-mes. Exemplo, 2015-01-15 = Dia 15" +
             "de Janeiro de 2015.")]
-        public async Task NasaWithGivenDate(CommandContext ctx, string date)
+        public async Task NasaWithGivenDate(CommandContext ctx, 
+            [Description("Data desejada")] string date)
         {
-            var nasa = new NasaAPIHandler();
+            var nasa = new NasaImagesProvider();
             nasa.GetImageWithGivenDate(date);
-            await ctx.Channel.SendFileAsync($@"C:\Users\carlo\Desktop\Applications\nasa5.jpeg").ConfigureAwait(false);
+            await ctx.Channel.SendFileAsync(nasa.LocalImagePath).ConfigureAwait(false);
         }
     }
 }

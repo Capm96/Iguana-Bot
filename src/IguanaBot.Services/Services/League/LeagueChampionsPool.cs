@@ -4,7 +4,7 @@ namespace IguanaBot.Serivces.League
 {
     public static class LeagueChampionsPool
     {
-        public static List<string> AllChampions = new List<string>()
+        public readonly static List<string> AllChampions = new List<string>()
         {
             "Aatrox",
             "Ahri",
@@ -129,7 +129,8 @@ namespace IguanaBot.Serivces.League
             "Zilean",
             "Zyra"
         };
-        public static List<string> ADC = new List<string>()
+
+        public readonly static List<string> ADC = new List<string>()
         {
             "Aphelios",
             "Ashe",
@@ -150,7 +151,8 @@ namespace IguanaBot.Serivces.League
             "Varus",
             "Yasuo",
         };
-        public static List<string> Support = new List<string>()
+
+        public readonly static List<string> Support = new List<string>()
         {
             "Bard",
             "Braum",
@@ -177,7 +179,8 @@ namespace IguanaBot.Serivces.League
             "Brand",
             "Morgana",
         };
-        public static List<string> Mid = new List<string>()
+
+        public readonly static List<string> Mid = new List<string>()
         {
             "Ahri",
             "Akali",
@@ -227,7 +230,8 @@ namespace IguanaBot.Serivces.League
             "Zilean",
             "Zoe"
         };
-        public static List<string> Jungle = new List<string>()
+
+        public readonly static List<string> Jungle = new List<string>()
         {
             "Amumu",
             "Camille",
@@ -285,7 +289,8 @@ namespace IguanaBot.Serivces.League
             "Xin Zhao",
             "Zac",
         };
-        public static List<string> Top = new List<string>()
+
+        public readonly static List<string> Top = new List<string>()
         {
             "Aatrox",
             "Akali",

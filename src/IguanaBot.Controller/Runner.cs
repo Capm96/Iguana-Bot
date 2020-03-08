@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             var iguanaBot = new IguanaBot();
-            iguanaBot.RunBotAsync().GetAwaiter().GetResult();
+            iguanaBot.InitializeBot().GetAwaiter().GetResult();
         }
     }
 }

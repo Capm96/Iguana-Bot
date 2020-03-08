@@ -7,7 +7,7 @@ namespace IguanaBot.Services.JsonHandler
 {
     public static class MyJsonReader
     {
-        public static JsonConfiguration GetJsonWithTokens()
+        public static JsonConfiguration GetJsonConfigurationWithTokensInformation()
         {
             var json = string.Empty;
 

@@ -10,6 +10,9 @@ namespace IguanaBot.JsonHandler
         [JsonProperty("nasaToken")]
         public string NasaToken { get; private set; }
 
+        [JsonProperty("financeToken")]
+        public string PokedollarToken { get; private set; }
+
         [JsonProperty("prefix")]
         public string Prefix { get; private set; }
     }

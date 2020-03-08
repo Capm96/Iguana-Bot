@@ -16,7 +16,7 @@ namespace IguanaBot.Services.Nasa
 
         public NasaImagesProvider()
         {
-            JsonConfiguration = MyJsonReader.GetJsonWithTokens();
+            JsonConfiguration = MyJsonReader.GetJsonConfigurationWithTokensInformation();
             ApodClient = new ApodClient(JsonConfiguration.NasaToken);
             LocalImagePath = Path.GetTempPath() + $@"\today.jpeg";
         }

@@ -1,13 +1,11 @@
-﻿
-namespace IguanaBot
+﻿namespace IguanaBot.Controller
 {
-    class Program
+    class Runner
     {
         static void Main(string[] args)
         {
-            var iguanaBot = new Bot();
+            var iguanaBot = new IguanaBot();
             iguanaBot.RunBotAsync().GetAwaiter().GetResult();
-
         }
     }
 }

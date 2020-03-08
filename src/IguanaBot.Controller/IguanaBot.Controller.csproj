@@ -10,9 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00665" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00665" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="4.0.0-nightly-00665" />
+    <ProjectReference Include="..\IguanaBot.Services\IguanaBot.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace IguanaBot
+namespace IguanaBot.Serivces.League
 {
     public static class LeagueChampionsPool
     {
@@ -131,7 +129,7 @@ namespace IguanaBot
             "Zilean",
             "Zyra"
         };
-        public static List<string> ADCarries = new List<string>()
+        public static List<string> ADC = new List<string>()
         {
             "Aphelios",
             "Ashe",
@@ -152,7 +150,7 @@ namespace IguanaBot
             "Varus",
             "Yasuo",
         };
-        public static List<string> Supports = new List<string>()
+        public static List<string> Support = new List<string>()
         {
             "Bard",
             "Braum",

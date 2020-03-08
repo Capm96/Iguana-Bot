@@ -1,32 +1,29 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
-using IguanaBot.Commands;
+using IguanaBot.Controller.Commands;
+using IguanaBot.Services;
+using IguanaBot.Services.JsonHandler;
+using IguanaBot.Services.League;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IguanaBot
+namespace IguanaBot.Controller
 {
-    public class Bot
+    public class IguanaBot
     {
         public DiscordClient Client { get; private set; }
         public CommandsNextExtension Commands { get; set; }
 
         public async Task RunBotAsync()
         {
-            var json = string.Empty;
-
-            using (var fs = File.OpenRead("config.json"))
-            using (var streamReader = new StreamReader(fs, new UTF8Encoding(false)))
-                json = await streamReader.ReadToEndAsync().ConfigureAwait(false);
-
-            var configJason = JsonConvert.DeserializeObject<JsonConfiguration>(json);
+            var configJson = await MyJsonReader.ReadJsonConfig();
 
             var config = new DiscordConfiguration
             {
-                Token = configJason.Token,
+                Token = configJson.DiscordToken,
                 TokenType = TokenType.Bot,
                 AutoReconnect = true,
                 LogLevel = LogLevel.Debug,
@@ -39,7 +36,7 @@ namespace IguanaBot
 
             var commandsConfig = new CommandsNextConfiguration
             {
-                StringPrefixes = new string[] { configJason.Prefix },
+                StringPrefixes = new string[] { configJson.Prefix },
                 EnableMentionPrefix = true,
                 DmHelp = false,
             };

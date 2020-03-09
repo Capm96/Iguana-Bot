@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading.Tasks;
 using Apod;
+using DSharpPlus.Entities;
 using IguanaBot.JsonHandler;
-using IguanaBot.Services.Helpers;
 using IguanaBot.Services.JsonHandler;
 
 namespace IguanaBot.Services.Nasa
@@ -21,33 +22,43 @@ namespace IguanaBot.Services.Nasa
             LocalImagePath = Path.GetTempPath() + $@"\today.jpeg";
         }
 
-        public async void GetImageOfTheDayFromToday()
+        public async Task<DiscordEmbedBuilder> GetImageOfTheDayFromToday()
         {
             var result = await ApodClient.FetchApodAsync(DateTime.Today);
 
-            if (result.StatusCode != ApodStatusCode.OK)
+            if (result.StatusCode != ApodStatusCode.OK || result.Content.MediaType != MediaType.Image)
             {
-                // Handle error.
-                return;
+                return new DiscordEmbedBuilder
+                {
+                    Title = "",
+                };
             }
 
-            var imageURL = result.Content.ContentUrl;
-            ImageSaver.SaveImage(imageURL, LocalImagePath, ImageFormat.Jpeg);
+            return new DiscordEmbedBuilder
+            {
+                Title = result.Content.Title,
+                ImageUrl = result.Content.ContentUrlHD //or some other random image url
+            };
         }
 
-        public async void GetImageWithGivenDate(string selectedDate)
+        public async Task<DiscordEmbedBuilder> GetImageWithGivenDate(string selectedDate)
         {
             var date = DateTime.Parse(selectedDate);
             var result = await ApodClient.FetchApodAsync(date);
 
-            if (result.StatusCode != ApodStatusCode.OK)
+            if (result.StatusCode != ApodStatusCode.OK || result.Content.MediaType != MediaType.Image)
             {
-                // Handle error.
-                return;
+                return new DiscordEmbedBuilder
+                {
+                    Title = "",
+                };
             }
 
-            var imageURL = result.Content.ContentUrl;
-            ImageSaver.SaveImage(imageURL, LocalImagePath, ImageFormat.Jpeg);
+            return new DiscordEmbedBuilder
+            {
+                Title = result.Content.Title,
+                ImageUrl = result.Content.ContentUrlHD //or some other random image url
+            };
         }
     }
 }

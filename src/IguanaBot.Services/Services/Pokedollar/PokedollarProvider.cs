@@ -36,7 +36,7 @@ namespace IguanaBot.Services.Pokedollar
             sb.Append(chars[0]);
             sb.Append(chars[1].Substring(0, 2));
 
-            var pokemonName = $"Pokedex {sb.ToString()}:" + AllPokemons.allPokemons[int.Parse(sb.ToString()) - 1];
+            var pokemonName = $"Pokedex {sb.ToString()}: " + AllPokemons.allPokemons[int.Parse(sb.ToString()) - 1];
 
             return pokemonName;
         }

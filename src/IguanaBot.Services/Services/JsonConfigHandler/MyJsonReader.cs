@@ -12,8 +12,8 @@ namespace IguanaBot.Services.JsonHandler
             var json = string.Empty;
 
             using (var fs = File.OpenRead("config.json"))
-                using (var streamReader = new StreamReader(fs, new UTF8Encoding(false)))
-                    json = streamReader.ReadToEnd();
+            using (var streamReader = new StreamReader(fs, new UTF8Encoding(false)))
+                json = streamReader.ReadToEnd();
 
             return JsonConvert.DeserializeObject<JsonConfiguration>(json);
         }

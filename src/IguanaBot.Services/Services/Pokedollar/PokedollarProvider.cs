@@ -1,44 +1,50 @@
-﻿using RatesExchangeApi;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using IguanaBot.Services.JsonHandler;
+using IguanaBot.Services.Pokedollar.Interfaces;
+using IguanaBot.Services.Services.Pokedollar;
 
 namespace IguanaBot.Services.Pokedollar
 {
-    public class PokedollarProvider
+    public class PokedollarProvider : IPokedollarProvider
     {
-        public string APIKey { get; set; }
+        private readonly string _todaysExchangeRateToken;
+        private readonly string _historicExchangeRateToken;
+        private readonly string _searchEngineId;
+        private readonly string _searchToken;
 
-        public PokedollarProvider(string apiKey)
+        public PokedollarProvider()
         {
-            APIKey = apiKey;
+            var configJson = MyJsonReader.GetJsonConfigurationWithTokensInformation();
+
+            _todaysExchangeRateToken = configJson.TodaysExchangeRateToken;
+            _historicExchangeRateToken = configJson.HistoricExchangeRateToken;
+            _searchEngineId = configJson.SearchEngineId;
+            _searchToken = configJson.SearchToken;
         }
 
-        public async Task<string> GetRate()
+        public string GetTodaysExchangeRate()
         {
-            var client = new RatesExchangeApiService(APIKey);
-
-            List<string> isoCurrencies = new List<string> { "BRL" };
-            var rates = await client.GetLatestRates("USD", isoCurrencies);
-
-            var rate = rates.Rates["BRL"];
-
-            return rate.ToString();
+            return ExchangeRateGetter.GetTodaysRate(_todaysExchangeRateToken);
         }
 
-        public async Task<string> GetPokemon(string rate)
+        public async Task<string> GetExchangeRateForThisDate(string date)
         {
-            var chars = rate.Split('.');
+            return await ExchangeRateGetter.GetRateForThisDate(date, _historicExchangeRateToken);
+        }
 
-            var sb = new StringBuilder();
+        public string GetPokemonName(string pokedexNumber)
+        {
+            return PokemonInformationGetter.GetPokemonNameFromRate(pokedexNumber);
+        }
 
-            sb.Append(chars[0]);
-            sb.Append(chars[1].Substring(0, 2));
+        public string GetPokemonImageLink(string pokemonName)
+        {
+            return PokemonInformationGetter.GetPokemonImageLink(_searchToken, _searchEngineId, pokemonName);
+        }
 
-            var pokemonName = $"Pokedex {sb.ToString()}: " + AllPokemons.allPokemons[int.Parse(sb.ToString()) - 1];
-
-            return pokemonName;
+        public string GetPokedexNumberFromRate(string rate)
+        {
+            return PokemonInformationGetter.GetPokedexNumberFromRate(rate);
         }
     }
 }

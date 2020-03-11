@@ -3,9 +3,10 @@
 namespace IguanaBot.Services.Pokedollar
 {
 	public static class AllPokemons
-    {
-		public static List<string> allPokemons = new List<string>
+	{
+		public readonly static List<string> AllPokemonNames = new List<string>
 		{
+			"",
 			"Bulbasaur",
 			"Ivysaur",
 			"Venusaur",

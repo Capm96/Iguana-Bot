@@ -12,14 +12,14 @@ namespace IguanaBot.Controller.Commands
     {
         private IPokedollarProvider _pokeDollarProvider = new PokedollarProvider();
 
-        [Command("dolar_hoje")]
+        [Command("dolar-hoje")]
         [Description("Retorna a cotação do dólar pro real de hoje.")]
         public async Task DolarHoje(CommandContext ctx)
         {
             await SendPokedollarMessageForToday(ctx);
         }
 
-        [Command("dolar_dia")]
+        [Command("dolar-dia")]
         [Description("Retorna a cotação do dólar pro real no dia escolhido.")]
         public async Task DolarDia(CommandContext ctx, string date)
         {

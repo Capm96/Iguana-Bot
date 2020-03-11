@@ -9,14 +9,34 @@ namespace IguanaBot.Controller.Commands
 {
     public class LeagueCommands : BaseCommandModule
     {
-        [Command("times_organizados")]
+        [Command("times-organizados")]
         [Description("Gera dois times aleatórios, porem com um campeão para cada role. Garante que cada time vai ter um top, um jungle, um mid, um adc, e um suporte.")]
         public async Task TimesOrganizados(CommandContext ctx)
         {
             var teams = LeagueFiveVersusFiveMatchMaker.GetTwoTeamsWithOneChampionFromEachRole();
 
             await SendMessageWithTeam(ctx, teams, 0);
+            await SendMessageWithTeam(ctx, teams, 1);
+        }
+
+        [Command("times-random")]
+        [Description("Gera dois times totalmente aleatórios. Aram style.")]
+        public async Task TimesFullAleatorios(CommandContext ctx)
+        {
+            var teams = LeagueFiveVersusFiveMatchMaker.GetTwoFullyRandomTeams();
+
             await SendMessageWithTeam(ctx, teams, 0);
+            await SendMessageWithTeam(ctx, teams, 1);
+        }
+
+        [Command("times-adc")]
+        [Description("Gera dois times totalmente aleatórios, porem garante que vao ter no minimo um ADC.")]
+        public async Task TimesAleatoriosComADC(CommandContext ctx)
+        {
+            var teams = LeagueFiveVersusFiveMatchMaker.GetTwoFullyRandomTeamsWithOneADC();
+
+            await SendMessageWithTeam(ctx, teams, 0);
+            await SendMessageWithTeam(ctx, teams, 1);
         }
 
         private async Task SendMessageWithTeam(CommandContext ctx, List<List<string>> teams, int teamIndex)

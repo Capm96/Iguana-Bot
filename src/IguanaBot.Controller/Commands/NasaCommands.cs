@@ -12,14 +12,14 @@ namespace IguanaBot.Controller.Commands
     {
         private NasaImagesProvider _nasaImageProvider = new NasaImagesProvider();
 
-        [Command("nasa_hoje")]
+        [Command("nasa-hoje")]
         [Description("Retorna a imagem do dia de hoje.")]
         public async Task Nasa(CommandContext ctx)
         {
             await SendNasaPictureForToday(ctx);
         }
 
-        [Command("nasa_dia")]
+        [Command("nasa-dia")]
         [Description("Retorna a imagem do dia selecionado. Formato: ano-dia-mês . Exemplo, 2015-01-15 = Dia 15 de Janeiro de 2015.")]
         public async Task NasaWithGivenDate(CommandContext ctx, [Description("Data desejada")] string date)
         {

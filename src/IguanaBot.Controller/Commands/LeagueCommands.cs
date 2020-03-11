@@ -2,7 +2,6 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using IguanaBot.Services.League;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,27 +11,25 @@ namespace IguanaBot.Controller.Commands
     {
         [Command("times_organizados")]
         [Description("Gera dois times aleatórios, porem com um campeão para cada role. Garante que cada time vai ter um top, um jungle, um mid, um adc, e um suporte.")]
-        public async Task Organizado(CommandContext ctx)
+        public async Task TimesOrganizados(CommandContext ctx)
         {
             var teams = LeagueFiveVersusFiveMatchMaker.GetTwoTeamsWithOneChampionFromEachRole();
 
-            var teamOne = GetTeamAsSingleString(teams[0]);
-            var embedOne = new DiscordEmbedBuilder
-            {
-                Title = "Time #1",
-                Description = teamOne,
-                Color = DiscordColor.Azure
-            };
-            await ctx.RespondAsync(embed: embedOne);
+            await SendMessageWithTeam(ctx, teams, 0);
+            await SendMessageWithTeam(ctx, teams, 0);
+        }
 
-            var teamTwo = GetTeamAsSingleString(teams[1]);
-            var embedTwo = new DiscordEmbedBuilder
+        private async Task SendMessageWithTeam(CommandContext ctx, List<List<string>> teams, int teamIndex)
+        {
+            var team = GetTeamAsSingleString(teams[teamIndex]);
+
+            var message = new DiscordEmbedBuilder
             {
-                Title = "Time #2",
-                Description = teamTwo,
-                Color = DiscordColor.Red
+                Title = teamIndex == 0 ? "Time #1" : "Time #2",
+                Description = team,
+                Color = teamIndex == 0 ? DiscordColor.Azure : DiscordColor.Red
             };
-            await ctx.RespondAsync(embed: embedTwo);
+            await ctx.RespondAsync(embed: message);
         }
 
         private string GetTeamAsSingleString(List<string> team)
@@ -40,10 +37,7 @@ namespace IguanaBot.Controller.Commands
             var output = "";
 
             foreach (var champion in team)
-            {
-                output += champion;
-                output += "\n";
-            }
+                output += champion + "\n";
 
             return output;
         }

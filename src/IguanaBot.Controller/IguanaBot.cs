@@ -48,7 +48,6 @@ namespace IguanaBot.Controller
             };
 
             Commands = DiscordClient.UseCommandsNext(commandsConfig);
-            Commands.RegisterCommands<FunCommands>();
             Commands.RegisterCommands<LeagueCommands>();
             Commands.RegisterCommands<PokedollarCommands>();
             Commands.RegisterCommands<NasaCommands>();

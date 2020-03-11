@@ -16,7 +16,7 @@ namespace IguanaBot.Controller.Commands
         [Description("Retorna a cotação do dólar pro real de hoje.")]
         public async Task DolarHoje(CommandContext ctx)
         {
-            await SendPokedollarMessage(ctx);
+            await SendPokedollarMessageForToday(ctx);
         }
 
         [Command("dolar_dia")]
@@ -25,19 +25,19 @@ namespace IguanaBot.Controller.Commands
         {
             bool dateIsValid = DateValidator.CheckIfDataIsValid(date);
             if (dateIsValid)
-                await SendPokedollarMessage(ctx, date);
+                await SendPokedollarMessageForGivenDate(ctx, date);
             else
-                await AlertUserThereWasAnError(ctx);
+                await DateValidator.AlertUserThereWasAnErrorWithTheDate(ctx);
         }
 
-        private async Task SendPokedollarMessage(CommandContext ctx, string date)
+        private async Task SendPokedollarMessageForGivenDate(CommandContext ctx, string date)
         {
             var exchangeRate = await _pokeDollarProvider.GetExchangeRateForThisDate(date);
             var finalMessage = CreateMessage(exchangeRate);
             await ctx.Message.RespondAsync(embed: finalMessage);
         }
 
-        private async Task SendPokedollarMessage(CommandContext ctx)
+        private async Task SendPokedollarMessageForToday(CommandContext ctx)
         {
             var exchangeRate = _pokeDollarProvider.GetTodaysExchangeRate();
             var finalMessage = CreateMessage(exchangeRate);
@@ -58,12 +58,6 @@ namespace IguanaBot.Controller.Commands
             };
 
             return message;
-        }
-
-        private async Task AlertUserThereWasAnError(CommandContext ctx)
-        {
-            await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
-            await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mês-dia (2020-01-01)");
         }
     }
 }

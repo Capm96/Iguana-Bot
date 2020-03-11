@@ -13,4 +13,8 @@
     <ProjectReference Include="..\IguanaBot.Services\IguanaBot.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

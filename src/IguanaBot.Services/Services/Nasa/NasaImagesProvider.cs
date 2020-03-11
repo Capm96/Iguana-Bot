@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Threading.Tasks;
 using Apod;
 using DSharpPlus.Entities;
@@ -12,40 +10,28 @@ namespace IguanaBot.Services.Nasa
     public class NasaImagesProvider
     {
         public ApodClient ApodClient { get; set; }
-        public JsonConfiguration JsonConfiguration { get; set; }
-        public string LocalImagePath { get; set; }
 
         public NasaImagesProvider()
         {
-            JsonConfiguration = MyJsonReader.GetJsonConfigurationWithTokensInformation();
-            ApodClient = new ApodClient(JsonConfiguration.NasaToken);
-            LocalImagePath = Path.GetTempPath() + $@"\today.jpeg";
+            var jsonConfig = MyJsonReader.GetJsonConfigurationWithTokensInformation();
+            ApodClient = new ApodClient(jsonConfig.NasaToken);
         }
 
-        public async Task<DiscordEmbedBuilder> GetImageOfTheDayFromToday()
+        public async Task<DiscordEmbedBuilder> GetImageFromToday()
         {
             var result = await ApodClient.FetchApodAsync(DateTime.Today);
-
-            if (result.StatusCode != ApodStatusCode.OK || result.Content.MediaType != MediaType.Image)
-            {
-                return new DiscordEmbedBuilder
-                {
-                    Title = "",
-                };
-            }
-
-            return new DiscordEmbedBuilder
-            {
-                Title = result.Content.Title,
-                ImageUrl = result.Content.ContentUrlHD //or some other random image url
-            };
+            return BuildNewDiscordEmbed(result);
         }
 
         public async Task<DiscordEmbedBuilder> GetImageWithGivenDate(string selectedDate)
         {
             var date = DateTime.Parse(selectedDate);
             var result = await ApodClient.FetchApodAsync(date);
+            return BuildNewDiscordEmbed(result);
+        }
 
+        private static DiscordEmbedBuilder BuildNewDiscordEmbed(ApodResponse result)
+        {
             if (result.StatusCode != ApodStatusCode.OK || result.Content.MediaType != MediaType.Image)
             {
                 return new DiscordEmbedBuilder
@@ -53,12 +39,14 @@ namespace IguanaBot.Services.Nasa
                     Title = "",
                 };
             }
-
-            return new DiscordEmbedBuilder
+            else
             {
-                Title = result.Content.Title,
-                ImageUrl = result.Content.ContentUrlHD //or some other random image url
-            };
+                return new DiscordEmbedBuilder
+                {
+                    Title = result.Content.Title,
+                    ImageUrl = result.Content.ContentUrlHD
+                };
+            }
         }
     }
 }

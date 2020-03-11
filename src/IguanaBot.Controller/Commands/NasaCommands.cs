@@ -1,5 +1,7 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
+using IguanaBot.Services.Helpers;
 using IguanaBot.Services.Nasa;
 using System;
 using System.Threading.Tasks;
@@ -8,49 +10,44 @@ namespace IguanaBot.Controller.Commands
 {
     public class NasaCommands : BaseCommandModule
     {
+        private NasaImagesProvider _nasaImageProvider = new NasaImagesProvider();
+
         [Command("nasa_hoje")]
         [Description("Retorna a imagem do dia de hoje.")]
         public async Task Nasa(CommandContext ctx)
         {
-            var nasa = new NasaImagesProvider();
-            var nasaEmbed = await nasa.GetImageOfTheDayFromToday();
-            await ctx.Message.RespondAsync(embed: nasaEmbed);
+            await SendNasaPictureForToday(ctx);
         }
 
         [Command("nasa_dia")]
-        [Description("Retorna a imagem do dia selecionado. Formato: ano-dia-mes. Exemplo, 2015-01-15 = Dia 15 de Janeiro de 2015.")]
+        [Description("Retorna a imagem do dia selecionado. Formato: ano-dia-mês . Exemplo, 2015-01-15 = Dia 15 de Janeiro de 2015.")]
         public async Task NasaWithGivenDate(CommandContext ctx, [Description("Data desejada")] string date)
         {
-            bool dateIsValid = CheckIfDataIsValid(date);
+            bool dateIsValid = DateValidator.CheckIfDataIsValid(date);
             if (dateIsValid)
-            {
-                var nasa = new NasaImagesProvider();
-                var nasaEmbed = await nasa.GetImageWithGivenDate(date);
-                await ctx.Message.RespondAsync(embed: nasaEmbed);
-            }
+                await SendNasaPictureForGivenDate(ctx, date);
             else
-            {
-                await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
-                await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mes-dia (2020-01-01)");
-            }
+                await DateValidator.AlertUserThereWasAnErrorWithTheDate(ctx);
         }
 
-        private bool CheckIfDataIsValid(string date)
+        private async Task SendNasaPictureForToday(CommandContext ctx)
         {
-            var dateTime = new DateTime();
-            bool dateCanBeParsed = DateTime.TryParse(date, out dateTime);
+            var nasaEmbed = await _nasaImageProvider.GetImageFromToday();
+            await SendMessage(ctx, nasaEmbed);
+        }
 
-            if (dateCanBeParsed)
-            {
-                if (dateTime > DateTime.Today)
-                    return false;
-            }
+        private async Task SendNasaPictureForGivenDate(CommandContext ctx, string date)
+        {
+            var nasaEmbed = await _nasaImageProvider.GetImageWithGivenDate(date);
+            await SendMessage(ctx, nasaEmbed);
+        }
+
+        private static async Task SendMessage(CommandContext ctx, DiscordEmbedBuilder nasaEmbed)
+        {
+            if (nasaEmbed.Title.Length > 0)
+                await ctx.Message.RespondAsync(embed: nasaEmbed);
             else
-            {
-                return false;
-            }
-
-            return true;
+                await ctx.Message.RespondAsync("Houve algum erro... entre em contato com o caco macaco.");
         }
     }
 }

@@ -20,18 +20,18 @@ namespace IguanaBot.Services.Tests.PokedollarTests
         public void GetPokemonName_WorksAsExpected()
         {
             // Arrange - 
-            var targetPokemonOne = AllPokemons.AllPokemonNames[100];
-            var targetPokemonTwo = AllPokemons.AllPokemonNames[250];
-            var targetPokemonThree = AllPokemons.AllPokemonNames[475];
+            var pokedexNumberOne = "100";
+            var pokedexNumberTwo = "250";
+            var pokedexNumberThree = "475";
 
-            var rateOne = "1.00";
-            var rateTwo = "2.50";
-            var rateThree = "4.75";
+            var targetPokemonOne = AllPokemons.AllPokemonNames[int.Parse(pokedexNumberOne)];
+            var targetPokemonTwo = AllPokemons.AllPokemonNames[int.Parse(pokedexNumberTwo)];
+            var targetPokemonThree = AllPokemons.AllPokemonNames[int.Parse(pokedexNumberThree)];
 
-            // Act - 
-            var actualPokemonOne = _pokeDollarProvider.GetPokemonName(rateOne);
-            var actualPokemonTwo = _pokeDollarProvider.GetPokemonName(rateTwo);
-            var actualPokemonThree = _pokeDollarProvider.GetPokemonName(rateThree);
+            // Act - 10
+            var actualPokemonOne = _pokeDollarProvider.GetPokemonName(pokedexNumberOne);
+            var actualPokemonTwo = _pokeDollarProvider.GetPokemonName(pokedexNumberTwo);
+            var actualPokemonThree = _pokeDollarProvider.GetPokemonName(pokedexNumberThree);
 
             // Assert -
             Assert.AreEqual(targetPokemonOne, actualPokemonOne);

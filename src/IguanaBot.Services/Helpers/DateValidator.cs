@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DSharpPlus.CommandsNext;
+using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace IguanaBot.Services.Helpers
 {
@@ -22,6 +24,12 @@ namespace IguanaBot.Services.Helpers
         private static bool DateIsValid(DateTime dateTime)
         {
             return dateTime <= DateTime.Today ? true : false;
+        }
+
+        public static async Task AlertUserThereWasAnErrorWithTheDate(CommandContext ctx)
+        {
+            await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
+            await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mês-dia (2020-01-01)");
         }
     }
 }

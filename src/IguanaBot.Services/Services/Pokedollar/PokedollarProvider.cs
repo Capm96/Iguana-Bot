@@ -24,12 +24,12 @@ namespace IguanaBot.Services.Pokedollar
 
         public string GetTodaysExchangeRate()
         {
-            return ExchangeRateGetter.GetTodaysRate(_todaysExchangeRateToken);
+            return ExchangeRateGetter.GetExchangeRateForToday(_todaysExchangeRateToken);
         }
 
         public async Task<string> GetExchangeRateForThisDate(string date)
         {
-            return await ExchangeRateGetter.GetRateForThisDate(date, _historicExchangeRateToken);
+            return await ExchangeRateGetter.GetExchangeRateForGivenDate(date, _historicExchangeRateToken);
         }
 
         public string GetPokemonName(string pokedexNumber)

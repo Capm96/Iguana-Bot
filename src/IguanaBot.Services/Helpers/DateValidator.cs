@@ -31,5 +31,25 @@ namespace IguanaBot.Services.Helpers
             await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
             await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mês-dia (2020-01-01)");
         }
+
+        public static bool IsWeekend(string date)
+        {
+            var dateTime = DateTime.Parse(date);
+            return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
+        }
+
+        public static void GetEarliestWeekday(ref string date)
+        {
+            var dateTime = DateTime.Parse(date);
+
+            DateTime newDateTime;
+            if (dateTime.DayOfWeek == DayOfWeek.Saturday)
+                newDateTime = dateTime.Date - TimeSpan.FromDays(1);
+            else
+                newDateTime = dateTime.Date.AddDays(-2);
+
+
+            date = newDateTime.ToString("yyyy-MM-dd h:mm tt").Substring(0, 10);
+        }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IguanaBot.Services.JsonHandler
 {
-    public static class MyJsonReader
+    public static class JsonConfigurationReader
     {
         public static JsonConfiguration GetJsonConfigurationWithTokensInformation()
         {

@@ -14,24 +14,6 @@ namespace IguanaBot.Services.Helpers
             return dateIsInCorrectFormat ? DateExists(date) : false;
         }
 
-        private static bool DateExists(string date)
-        {
-            var dateTime = new DateTime();
-            var dateCanBeParsed = DateTime.TryParse(date, out dateTime);
-            return dateCanBeParsed ? DateIsValid(dateTime) : false;
-        }
-
-        private static bool DateIsValid(DateTime dateTime)
-        {
-            return dateTime <= DateTime.Today ? true : false;
-        }
-
-        public static async Task AlertUserThereWasAnErrorWithTheDate(CommandContext ctx)
-        {
-            await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
-            await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mês-dia (2020-01-01)");
-        }
-
         public static bool IsWeekend(string date)
         {
             var dateTime = DateTime.Parse(date);
@@ -50,6 +32,24 @@ namespace IguanaBot.Services.Helpers
 
 
             date = newDateTime.ToString("yyyy-MM-dd h:mm tt").Substring(0, 10);
+        }
+
+        private static bool DateExists(string date)
+        {
+            var dateTime = new DateTime();
+            var dateCanBeParsed = DateTime.TryParse(date, out dateTime);
+            return dateCanBeParsed ? DateIsValid(dateTime) : false;
+        }
+
+        private static bool DateIsValid(DateTime dateTime)
+        {
+            return dateTime <= DateTime.Today ? true : false;
+        }
+
+        public static async Task AlertUserThereWasAnErrorWithTheDate(CommandContext ctx)
+        {
+            await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
+            await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mês-dia (2020-01-01)");
         }
     }
 }

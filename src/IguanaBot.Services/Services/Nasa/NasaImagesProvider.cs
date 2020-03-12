@@ -13,7 +13,7 @@ namespace IguanaBot.Services.Nasa
 
         public NasaImagesProvider()
         {
-            var jsonConfig = MyJsonReader.GetJsonConfigurationWithTokensInformation();
+            var jsonConfig = JsonConfigurationReader.GetJsonConfigurationWithTokensInformation();
             ApodClient = new ApodClient(jsonConfig.NasaToken);
         }
 

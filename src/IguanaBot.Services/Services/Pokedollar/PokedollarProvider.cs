@@ -14,7 +14,7 @@ namespace IguanaBot.Services.Pokedollar
 
         public PokedollarProvider()
         {
-            var configJson = MyJsonReader.GetJsonConfigurationWithTokensInformation();
+            var configJson = JsonConfigurationReader.GetJsonConfigurationWithTokensInformation();
 
             _todaysExchangeRateToken = configJson.TodaysExchangeRateToken;
             _historicExchangeRateToken = configJson.HistoricExchangeRateToken;

@@ -6,100 +6,85 @@ namespace IguanaBot.Services.League
 {
     public static class LeagueFiveVersusFiveMatchMaker
     {
-        public static List<List<string>> GetTwoTeamsWithOneChampionFromEachRole()
+        public static List<string> GetTwoTeamsWithOneChampionFromEachRole()
         {
             var teamOne = GetTeamWithOneChampionFromEachRole();
             var teamTwo = GetTeamWithOneChampionFromEachRole();
-            return new List<List<string>>() { teamOne, teamTwo };
+            return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
         }
 
-        public static List<List<string>> GetTwoFullyRandomTeams()
+        public static List<string> GetTwoFullyRandomTeams()
         {
-            var teamOne = GetAFullyRandomTeam();
-            var teamTwo = GetAFullyRandomTeam();
-            return new List<List<string>>() { teamOne, teamTwo };
+            var teamOne = GetAFullyRandomTeam(5);
+            var teamTwo = GetAFullyRandomTeam(5);
+            return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
         }
 
-        public static List<List<string>> GetTwoFullyRandomTeamsWithOneADC()
+        public static List<string> GetTwoFullyRandomTeamsWithOneADC()
         {
             var teamOne = GetAFullyRandomTeamWithOneADC();
             var teamTwo = GetAFullyRandomTeamWithOneADC();
-            return new List<List<string>>() { teamOne, teamTwo };
+            return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
         }
 
-        private static List<string> GetAFullyRandomTeam()
-        {
-            var randomIndexOne = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-            var randomIndexTwo = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-            var randomIndexThree = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-            var randomIndexFour = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-            var randomIndexFive = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-
-            var teamOne = new List<string>();
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexOne]);
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexTwo]);
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexThree]);
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexFour]);
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexFive]);
-
-            bool thereIsARepeatedChampion = CheckForRepeatedChamps(teamOne);
-            if (thereIsARepeatedChampion)
-                return GetAFullyRandomTeam();
-            else
-                return teamOne;
-        }
-
-        private static List<string> GetAFullyRandomTeamWithOneADC()
-        {
-            var randomIndexOne = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-            var randomIndexTwo = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-            var randomIndexThree = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-            var randomADCIndex = new Random().Next(1, LeagueChampionsPool.ADC.Count);
-            var randomIndexFive = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
-
-            var teamOne = new List<string>();
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexOne]);
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexTwo]);
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexThree]);
-            teamOne.Add(LeagueChampionsPool.ADC[randomADCIndex]);
-            teamOne.Add(LeagueChampionsPool.AllChampions[randomIndexFive]);
-
-            bool thereIsARepeatedChampion = CheckForRepeatedChamps(teamOne);
-            if (thereIsARepeatedChampion)
-                return GetAFullyRandomTeamWithOneADC();
-            else
-                return teamOne;
-        }
-
-        private static List<string> GetTeamWithOneChampionFromEachRole()
-        {
-            var randomTopIndex = new Random().Next(1, LeagueChampionsPool.Top.Count);
-            var randomJungleIndex = new Random().Next(1, LeagueChampionsPool.Jungle.Count);
-            var randomMidIndex = new Random().Next(1, LeagueChampionsPool.Mid.Count);
-            var randomAdIndex = new Random().Next(1, LeagueChampionsPool.ADC.Count);
-            var randomSupIndex = new Random().Next(1, LeagueChampionsPool.Support.Count);
-
-            var teamOne = new List<string>();
-            teamOne.Add($"Top: {LeagueChampionsPool.Top[randomTopIndex]}");
-            teamOne.Add($"Jungle: {LeagueChampionsPool.Jungle[randomJungleIndex]}");
-            teamOne.Add($"Mid: {LeagueChampionsPool.Mid[randomMidIndex]}");
-            teamOne.Add($"ADC: {LeagueChampionsPool.ADC[randomAdIndex]}");
-            teamOne.Add($"Support: {LeagueChampionsPool.Support[randomSupIndex]}");
-
-            bool thereIsARepeatedChampion = CheckForRepeatedChamps(teamOne);
-            if (thereIsARepeatedChampion)
-                return GetTeamWithOneChampionFromEachRole();
-            else
-                return teamOne;
-        }
-
-        public static bool CheckForRepeatedChamps(List<string> teamOne)
+        public static bool IsThereARepeatedChampion(List<string> teamOne)
         {
             foreach (var champion in teamOne)
                 if (teamOne.FindAll(x => x == champion).Count >= 2)
                     return true;
 
             return false;
+        }
+
+        public static string GetTeamAsSingleString(List<string> team)
+        {
+            var output = "";
+
+            foreach (var champion in team)
+                output += champion + "\n";
+
+            return output;
+        }
+
+        private static List<string> GetTeamWithOneChampionFromEachRole()
+        {
+            var team = new List<string>();
+
+            var randomTopIndex = new Random().Next(1, LeagueChampionsPool.Top.Count);
+            team.Add($"Top: {LeagueChampionsPool.Top[randomTopIndex]}");
+            var randomJungleIndex = new Random().Next(1, LeagueChampionsPool.Jungle.Count);
+            team.Add($"Jungle: {LeagueChampionsPool.Jungle[randomJungleIndex]}");
+            var randomMidIndex = new Random().Next(1, LeagueChampionsPool.Mid.Count);
+            team.Add($"Mid: {LeagueChampionsPool.Mid[randomMidIndex]}");
+            var randomAdIndex = new Random().Next(1, LeagueChampionsPool.ADC.Count);
+            team.Add($"ADC: {LeagueChampionsPool.ADC[randomAdIndex]}");
+            var randomSupIndex = new Random().Next(1, LeagueChampionsPool.Support.Count);
+            team.Add($"Support: {LeagueChampionsPool.Support[randomSupIndex]}");
+
+            return IsThereARepeatedChampion(team) ? GetTeamWithOneChampionFromEachRole() : team;
+        }
+
+        private static List<string> GetAFullyRandomTeam(int numberOfChampions)
+        {
+            var team = new List<string>();
+
+            for (int i = 0; i < numberOfChampions; i++)
+            {
+                var randomIndex = new Random().Next(1, LeagueChampionsPool.AllChampions.Count);
+                team.Add(LeagueChampionsPool.AllChampions[randomIndex]);
+            }
+
+            return IsThereARepeatedChampion(team) ? GetAFullyRandomTeam(numberOfChampions) : team;
+        }
+
+        private static List<string> GetAFullyRandomTeamWithOneADC()
+        {
+            var team = GetAFullyRandomTeam(4);
+
+            var randomADCIndex = new Random().Next(1, LeagueChampionsPool.ADC.Count);
+            team.Add(LeagueChampionsPool.ADC[randomADCIndex]);
+
+            return team;
         }
     }
 }

@@ -14,13 +14,11 @@ namespace IguanaBot.Controller
 
         public async Task InitializeBot()
         {
-            var configJson = MyJsonReader.GetJsonConfigurationWithTokensInformation();
+            var configJson = JsonConfigurationReader.GetJsonConfigurationWithTokensInformation();
 
             RegisterDiscordClient(configJson);
             RegisterCommands(configJson);
-
-            await DiscordClient.ConnectAsync();
-            await Task.Delay(-1);
+            await Run();
         }
 
         private void RegisterDiscordClient(JsonConfiguration configJson)
@@ -51,6 +49,12 @@ namespace IguanaBot.Controller
             Commands.RegisterCommands<LeagueCommands>();
             Commands.RegisterCommands<PokedollarCommands>();
             Commands.RegisterCommands<NasaCommands>();
+        }
+
+        private async Task Run()
+        {
+            await DiscordClient.ConnectAsync();
+            await Task.Delay(-1);
         }
     }
 }

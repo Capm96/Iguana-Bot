@@ -1,6 +1,5 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 using IguanaBot.Services.Helpers;
 using IguanaBot.Services.Pokedollar;
 using IguanaBot.Services.Pokedollar.Interfaces;
@@ -32,32 +31,14 @@ namespace IguanaBot.Controller.Commands
 
         private async Task SendPokedollarMessageForGivenDate(CommandContext ctx, string date)
         {
-            var exchangeRate = await _pokeDollarProvider.GetExchangeRateForThisDate(date);
-            var finalMessage = CreateMessage(exchangeRate);
-            await ctx.Message.RespondAsync(embed: finalMessage);
+            var exchangeRateMessage = await _pokeDollarProvider.GetExchangeRateForThisDate(date);
+            await ctx.Message.RespondAsync(embed: exchangeRateMessage);
         }
 
         private async Task SendPokedollarMessageForToday(CommandContext ctx)
         {
-            var exchangeRate = _pokeDollarProvider.GetTodaysExchangeRate();
-            var finalMessage = CreateMessage(exchangeRate);
-            await ctx.Message.RespondAsync(embed: finalMessage);
-        }
-
-        private DiscordEmbedBuilder CreateMessage(string exchangeRate)
-        {
-            var pokedexNumber = _pokeDollarProvider.GetPokedexNumberFromRate(exchangeRate);
-            var pokemonName = _pokeDollarProvider.GetPokemonName(pokedexNumber);
-            var pokemonImageLink = _pokeDollarProvider.GetPokemonImageLink(pokemonName);
-
-            var message = new DiscordEmbedBuilder
-            {
-                Title = $"1 dolar = {exchangeRate} reais",
-                Description = $"Pokedex numero {pokedexNumber} = {pokemonName}!",
-                ImageUrl = pokemonImageLink
-            };
-
-            return message;
+            var exchangeRateMessage = _pokeDollarProvider.GetTodaysExchangeRate();
+            await ctx.Message.RespondAsync(embed: exchangeRateMessage);
         }
     }
 }

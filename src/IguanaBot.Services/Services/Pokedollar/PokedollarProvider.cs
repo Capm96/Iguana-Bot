@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using DSharpPlus.Entities;
 using IguanaBot.Services.JsonHandler;
 using IguanaBot.Services.Pokedollar.Interfaces;
 using IguanaBot.Services.Services.Pokedollar;
@@ -22,29 +24,55 @@ namespace IguanaBot.Services.Pokedollar
             _searchToken = configJson.SearchToken;
         }
 
-        public string GetTodaysExchangeRate()
+        public DiscordEmbedBuilder GetTodaysExchangeRate()
         {
-            return ExchangeRateGetter.GetExchangeRateForToday(_todaysExchangeRateToken);
+            var exchangeRate = string.Empty;
+            var task = Task.Run(() =>
+            {
+                exchangeRate = ExchangeRateGetter.GetExchangeRateForToday(_todaysExchangeRateToken);
+            });
+
+            bool taskCompletedSuccessfully = task.Wait(TimeSpan.FromSeconds(3));
+            return taskCompletedSuccessfully ? CreateMessageWithCorrectInformation(exchangeRate) : CreateErrorMessage();
         }
 
-        public async Task<string> GetExchangeRateForThisDate(string date)
+        public async Task<DiscordEmbedBuilder> GetExchangeRateForThisDate(string date)
         {
-            return await ExchangeRateGetter.GetExchangeRateForGivenDate(date, _historicExchangeRateToken);
+            var exchangeRate = string.Empty;
+            var task = Task.Run(async() =>
+            {
+                exchangeRate = await ExchangeRateGetter.GetExchangeRateForGivenDate(date, _historicExchangeRateToken);
+            });
+
+            bool taskCompletedSuccessfully = task.Wait(TimeSpan.FromSeconds(3));
+            return taskCompletedSuccessfully ? CreateMessageWithCorrectInformation(exchangeRate) : CreateErrorMessage();
         }
 
-        public string GetPokemonName(string pokedexNumber)
+        private DiscordEmbedBuilder CreateMessageWithCorrectInformation(string exchangeRate)
         {
-            return PokemonInformationGetter.GetPokemonNameFromRate(pokedexNumber);
+            var pokedexNumber = PokemonInformationGetter.GetPokedexNumberFromRate(exchangeRate);
+            var pokemonName = AllPokemons.AllPokemonNames[pokedexNumber];
+            var pokemonImageLink = PokemonInformationGetter.GetPokemonImageLink(_searchToken, _searchEngineId, pokemonName);
+
+            var message = new DiscordEmbedBuilder
+            {
+                Title = $"1 dolar = {exchangeRate} reais",
+                Description = $"Pokedex numero {pokedexNumber} = {pokemonName}!",
+                ImageUrl = pokemonImageLink
+            };
+
+            return message;
         }
 
-        public string GetPokemonImageLink(string pokemonName)
+        private DiscordEmbedBuilder CreateErrorMessage()
         {
-            return PokemonInformationGetter.GetPokemonImageLink(_searchToken, _searchEngineId, pokemonName);
-        }
+            var message = new DiscordEmbedBuilder
+            {
+                Title = $"Houve algum erro...",
+                Description = $"Por favor entre em contato com o caco macaco.",
+            };
 
-        public string GetPokedexNumberFromRate(string rate)
-        {
-            return PokemonInformationGetter.GetPokedexNumberFromRate(rate);
+            return message;
         }
     }
 }

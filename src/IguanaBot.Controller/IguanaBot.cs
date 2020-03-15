@@ -49,6 +49,7 @@ namespace IguanaBot.Controller
             Commands.RegisterCommands<LeagueCommands>();
             Commands.RegisterCommands<PokedollarCommands>();
             Commands.RegisterCommands<NasaCommands>();
+            Commands.RegisterCommands<CoronaInformationCommands>();
         }
 
         private async Task Run()

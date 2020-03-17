@@ -32,11 +32,19 @@ namespace IguanaBot.Services.Nasa
 
         private static DiscordEmbedBuilder BuildNewDiscordEmbed(ApodResponse result)
         {
-            if (result.StatusCode != ApodStatusCode.OK || result.Content.MediaType != MediaType.Image)
+            if (result.StatusCode != ApodStatusCode.OK)
             {
                 return new DiscordEmbedBuilder
                 {
                     Title = "",
+                };
+            }
+            else if (result.Content.MediaType == MediaType.Video)
+            {
+                return new DiscordEmbedBuilder
+                {
+                    Title = result.Content.Title,
+                    Url = result.Content.ContentUrl,
                 };
             }
             else
@@ -44,7 +52,7 @@ namespace IguanaBot.Services.Nasa
                 return new DiscordEmbedBuilder
                 {
                     Title = result.Content.Title,
-                    ImageUrl = result.Content.ContentUrlHD
+                    ImageUrl = result.Content.ContentUrlHD,
                 };
             }
         }

@@ -1,16 +1,16 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
-using IguanaBot.Services.Helpers;
-using IguanaBot.Services.Nasa;
-using System;
+using IguanaBot.Helpers.Validators;
+using IguanaBot.Services;
+using IguanaBot.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace IguanaBot.Controller.Commands
 {
     public class NasaCommands : BaseCommandModule
     {
-        private NasaImagesProvider _nasaImageProvider = new NasaImagesProvider();
+        private INasaServiceProvider _serviceProvider = ServiceFactory.GetNasaServiceProvider();
 
         [Command("nasa-hoje")]
         [Description("Retorna a imagem do dia de hoje.")]
@@ -27,18 +27,18 @@ namespace IguanaBot.Controller.Commands
             if (dateIsValid)
                 await SendNasaPictureForGivenDate(ctx, date);
             else
-                await DateValidator.AlertUserThereWasAnErrorWithTheDate(ctx);
+                await AlertUserThereWasAnErrorWithTheDate(ctx);
         }
 
         private async Task SendNasaPictureForToday(CommandContext ctx)
         {
-            var nasaEmbed = await _nasaImageProvider.GetImageFromToday();
+            var nasaEmbed = await _serviceProvider.GetImageFromToday();
             await SendMessage(ctx, nasaEmbed);
         }
 
         private async Task SendNasaPictureForGivenDate(CommandContext ctx, string date)
         {
-            var nasaEmbed = await _nasaImageProvider.GetImageWithGivenDate(date);
+            var nasaEmbed = await _serviceProvider.GetImageWithGivenDate(date);
             await SendMessage(ctx, nasaEmbed);
         }
 
@@ -48,6 +48,12 @@ namespace IguanaBot.Controller.Commands
                 await ctx.Message.RespondAsync(embed: nasaEmbed);
             else
                 await ctx.Message.RespondAsync("Houve algum erro... entre em contato com o caco macaco.");
+        }
+
+        private static async Task AlertUserThereWasAnErrorWithTheDate(CommandContext ctx)
+        {
+            await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
+            await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mês-dia (2020-01-01)");
         }
     }
 }

@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="bin\Debug\netcoreapp3.1\config.json" />
   </ItemGroup>
 
@@ -20,6 +26,11 @@
     <PackageReference Include="RatesExchangeApi" Version="1.0.1" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <PackageReference Include="System.Text.Encodings.Web" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IguanaBot.Entities\IguanaBot.Entities.csproj" />
+    <ProjectReference Include="..\IguanaBot.Helpers\IguanaBot.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

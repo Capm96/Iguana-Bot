@@ -7,9 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IguanaBot.Services", "Iguan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IguanaBot.Controller", "IguanaBot.Controller\IguanaBot.Controller.csproj", "{E112E850-631A-4EC0-8E70-13B71C23AA4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IguanaBot.Services.Tests", "IguanaBot.Services.Tests\IguanaBot.Services.Tests.csproj", "{7E816107-08E9-4188-8486-1B1455BA8986}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IguanaBot.Services.Tests", "IguanaBot.Services.Tests\IguanaBot.Services.Tests.csproj", "{7E816107-08E9-4188-8486-1B1455BA8986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IguanaBot.Controller.Tests", "IguanaBot.Controller.Tests\IguanaBot.Controller.Tests.csproj", "{9243E1C6-F46C-447C-80AB-A9444F2CE6B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IguanaBot.Controller.Tests", "IguanaBot.Controller.Tests\IguanaBot.Controller.Tests.csproj", "{9243E1C6-F46C-447C-80AB-A9444F2CE6B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{30B34A84-0ED1-45C0-8789-1353FCA36B87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IguanaBot.Helpers", "IguanaBot.Helpers\IguanaBot.Helpers.csproj", "{E685C334-E051-48ED-A4CB-8BBE3989D1C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IguanaBot.Helpers.Tests", "IguanaBot.Helpers.Tests\IguanaBot.Helpers.Tests.csproj", "{BB9449CD-48F4-46E4-BDE7-EAE5E2B157F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IguanaBot.Entities", "IguanaBot.Entities\IguanaBot.Entities.csproj", "{13D22F1A-3830-4456-8627-3F9485AB0A1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +41,26 @@ Global
 		{9243E1C6-F46C-447C-80AB-A9444F2CE6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9243E1C6-F46C-447C-80AB-A9444F2CE6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9243E1C6-F46C-447C-80AB-A9444F2CE6B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E685C334-E051-48ED-A4CB-8BBE3989D1C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E685C334-E051-48ED-A4CB-8BBE3989D1C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E685C334-E051-48ED-A4CB-8BBE3989D1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E685C334-E051-48ED-A4CB-8BBE3989D1C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB9449CD-48F4-46E4-BDE7-EAE5E2B157F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB9449CD-48F4-46E4-BDE7-EAE5E2B157F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB9449CD-48F4-46E4-BDE7-EAE5E2B157F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB9449CD-48F4-46E4-BDE7-EAE5E2B157F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13D22F1A-3830-4456-8627-3F9485AB0A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13D22F1A-3830-4456-8627-3F9485AB0A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13D22F1A-3830-4456-8627-3F9485AB0A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13D22F1A-3830-4456-8627-3F9485AB0A1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E816107-08E9-4188-8486-1B1455BA8986} = {30B34A84-0ED1-45C0-8789-1353FCA36B87}
+		{9243E1C6-F46C-447C-80AB-A9444F2CE6B7} = {30B34A84-0ED1-45C0-8789-1353FCA36B87}
+		{BB9449CD-48F4-46E4-BDE7-EAE5E2B157F1} = {30B34A84-0ED1-45C0-8789-1353FCA36B87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B070376-B0D8-4BD8-A734-E9CD22CB7C85}

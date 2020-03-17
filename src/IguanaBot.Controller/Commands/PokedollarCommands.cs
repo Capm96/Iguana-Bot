@@ -1,15 +1,15 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using IguanaBot.Services.Helpers;
-using IguanaBot.Services.Pokedollar;
-using IguanaBot.Services.Pokedollar.Interfaces;
+using IguanaBot.Helpers.Validators;
+using IguanaBot.Services;
+using IguanaBot.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace IguanaBot.Controller.Commands
 {
     public class PokedollarCommands : BaseCommandModule
     {
-        private IPokedollarProvider _pokeDollarProvider = new PokedollarProvider();
+        private readonly IPokedollarServiceProvider _serviceProvider = ServiceFactory.GetPokedollarServiceProvider();
 
         [Command("dolar-hoje")]
         [Description("Retorna a cotação do dólar pro real de hoje.")]
@@ -26,19 +26,25 @@ namespace IguanaBot.Controller.Commands
             if (dateIsValid)
                 await SendPokedollarMessageForGivenDate(ctx, date);
             else
-                await DateValidator.AlertUserThereWasAnErrorWithTheDate(ctx);
+                await AlertUserThereWasAnErrorWithTheDate(ctx);
         }
 
         private async Task SendPokedollarMessageForGivenDate(CommandContext ctx, string date)
         {
-            var exchangeRateMessage = await _pokeDollarProvider.GetExchangeRateForThisDate(date);
+            var exchangeRateMessage = await _serviceProvider.GetExchangeRateForThisDate(date);
             await ctx.Message.RespondAsync(embed: exchangeRateMessage);
         }
 
         private async Task SendPokedollarMessageForToday(CommandContext ctx)
         {
-            var exchangeRateMessage = _pokeDollarProvider.GetTodaysExchangeRate();
+            var exchangeRateMessage = _serviceProvider.GetTodaysExchangeRate();
             await ctx.Message.RespondAsync(embed: exchangeRateMessage);
+        }
+
+        private static async Task AlertUserThereWasAnErrorWithTheDate(CommandContext ctx)
+        {
+            await ctx.Channel.SendMessageAsync("Houve um erro com a data selecionada.");
+            await ctx.Channel.SendMessageAsync("Por favor escolha alguma data no formato: ano-mês-dia (2020-01-01)");
         }
     }
 }

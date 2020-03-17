@@ -1,6 +1,5 @@
-﻿using IguanaBot.Services.JsonHandler;
+﻿using IguanaBot.Helpers.Config;
 using IguanaBot.Services.Pokedollar;
-using IguanaBot.Services.Services.Pokedollar;
 using NUnit.Framework;
 
 namespace IguanaBot.Services.Tests.PokedollarTests
@@ -25,7 +24,7 @@ namespace IguanaBot.Services.Tests.PokedollarTests
         {
             // Arrange -
             var imageLink = string.Empty;
-            var configJson = JsonConfigurationReader.GetJsonConfigurationWithTokensInformation();
+            var configJson = JsonConfigurationReader.GetJsonConfigurationWithMyTokens();
 
             // Act - 
             imageLink = PokemonInformationGetter.GetPokemonImageLink(configJson.SearchToken, configJson.SearchEngineId, "Pikachu");

@@ -79,6 +79,43 @@ namespace IguanaBot.Services.Tests.LeagueTests
         }
 
         [Test]
+        public void CheckForRepeatedChampionsWithinTwoTeams_WorksAsExpected()
+        {
+            // Arrange - 
+            var teamOne = new List<string>()
+            {
+                "champ",
+                "champ 1",
+            };
+
+            var teamTwo = new List<string>()
+            {
+                "champ",
+                "champ 1",
+            };
+
+            var teamThree = new List<string>()
+            {
+                "champ 5",
+                "champ 6",
+            };
+
+            var teamFour = new List<string>()
+            {
+                "champ 7",
+                "champ 8",
+            };
+
+            // Act -
+            bool teamsOneAndTwoAreRepeated = _leagueServiceProvider.TeamsContainRepeteadChampion(teamOne, teamTwo);
+            bool teamsThreeAndFourAreRepeated = _leagueServiceProvider.TeamsContainRepeteadChampion(teamThree, teamFour);
+
+            // Assert - 
+            Assert.True(teamsOneAndTwoAreRepeated);
+            Assert.False(teamsThreeAndFourAreRepeated);
+        }
+
+        [Test]
         public void GetTeamAsSingleString_WorksAsExpected()
         {
             // Arrange - 

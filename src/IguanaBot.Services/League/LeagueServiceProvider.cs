@@ -11,21 +11,39 @@ namespace IguanaBot.Services.League
         {
             var teamOne = GetTeamWithOneChampionFromEachRole();
             var teamTwo = GetTeamWithOneChampionFromEachRole();
-            return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
+            if (TeamsContainRepeteadChampion(teamOne, teamTwo))
+                return GetTwoTeamsWithOneChampionFromEachRole();
+            else
+                return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
         }
 
         public List<string> GetTwoFullyRandomTeams()
         {
             var teamOne = GetAFullyRandomTeam(5);
             var teamTwo = GetAFullyRandomTeam(5);
-            return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
+            if (TeamsContainRepeteadChampion(teamOne, teamTwo))
+                return GetTwoTeamsWithOneChampionFromEachRole();
+            else
+                return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
         }
 
         public List<string> GetTwoFullyRandomTeamsWithOneADC()
         {
             var teamOne = GetAFullyRandomTeamWithOneADC();
             var teamTwo = GetAFullyRandomTeamWithOneADC();
-            return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
+            if (TeamsContainRepeteadChampion(teamOne, teamTwo))
+                return GetTwoTeamsWithOneChampionFromEachRole();
+            else
+                return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
+        }
+
+        public bool TeamsContainRepeteadChampion(List<string> teamOne, List<string> teamTwo)
+        {
+            foreach (var champion in teamOne)
+                if (teamTwo.FindAll(x => x == champion).Count >= 1)
+                    return true;
+
+            return false;
         }
 
         public bool IsThereARepeatedChampion(List<string> teamOne)

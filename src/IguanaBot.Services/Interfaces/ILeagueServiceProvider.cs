@@ -9,5 +9,6 @@ namespace IguanaBot.Services.Interfaces
         List<string> GetTwoTeamsWithOneChampionFromEachRole();
         bool IsThereARepeatedChampion(List<string> team);
         string GetTeamAsSingleString(List<string> team);
+        bool TeamsContainRepeteadChampion(List<string> teamOne, List<string> teamTwo);
     }
 }

@@ -28,6 +28,7 @@ namespace IguanaBot.Services.Tests.PokedollarTests
         }
 
         // TODO: Figure out what is wrong -- historic exchange rates not being picked up.
+        [Test]
         public async Task GetExchangeRateForGivenDate_WorksAsExpected()
         {
             // Act -

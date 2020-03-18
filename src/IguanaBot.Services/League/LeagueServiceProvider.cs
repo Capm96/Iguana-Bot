@@ -17,6 +17,12 @@ namespace IguanaBot.Services.League
                 return new List<string>() { GetTeamAsSingleString(teamOne), GetTeamAsSingleString(teamTwo) };
         }
 
+        public string GetATeamWithOneChampionFromEachRole()
+        {
+            var team = GetTeamWithOneChampionFromEachRole();
+            return GetTeamAsSingleString(team);
+        }
+
         public List<string> GetTwoFullyRandomTeams()
         {
             var teamOne = GetAFullyRandomTeam(5);

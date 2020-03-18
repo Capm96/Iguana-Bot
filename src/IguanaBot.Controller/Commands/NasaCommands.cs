@@ -1,6 +1,5 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 using IguanaBot.Helpers.Validators;
 using IguanaBot.Services;
 using IguanaBot.Services.Interfaces;
@@ -16,7 +15,8 @@ namespace IguanaBot.Controller.Commands
         [Description("Retorna a imagem do dia de hoje.")]
         public async Task Nasa(CommandContext ctx)
         {
-            await SendNasaPictureForToday(ctx);
+            var nasaEmbed = await _serviceProvider.GetImageFromToday();
+            await ctx.Message.RespondAsync(embed: nasaEmbed);
         }
 
         [Command("nasa-dia")]
@@ -30,24 +30,10 @@ namespace IguanaBot.Controller.Commands
                 await AlertUserThereWasAnErrorWithTheDate(ctx);
         }
 
-        private async Task SendNasaPictureForToday(CommandContext ctx)
-        {
-            var nasaEmbed = await _serviceProvider.GetImageFromToday();
-            await SendMessage(ctx, nasaEmbed);
-        }
-
         private async Task SendNasaPictureForGivenDate(CommandContext ctx, string date)
         {
             var nasaEmbed = await _serviceProvider.GetImageWithGivenDate(date);
-            await SendMessage(ctx, nasaEmbed);
-        }
-
-        private static async Task SendMessage(CommandContext ctx, DiscordEmbedBuilder nasaEmbed)
-        {
-            if (nasaEmbed.Title.Length > 0)
-                await ctx.Message.RespondAsync(embed: nasaEmbed);
-            else
-                await ctx.Message.RespondAsync("Houve algum erro... entre em contato com o caco macaco.");
+            await ctx.Message.RespondAsync(embed: nasaEmbed);
         }
 
         private static async Task AlertUserThereWasAnErrorWithTheDate(CommandContext ctx)

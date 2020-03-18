@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace IguanaBot.Services.Pokedollar
 {
-    // TODO: Error handling.
     public static class ExchangeRateGetter
     {
         public const string TodaysRateBaseURL = "https://free.currconv.com/api/v7/";

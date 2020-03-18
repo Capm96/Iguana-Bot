@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DSharpPlus.Entities;
 using IguanaBot.Entities.Pokedollar;
 using IguanaBot.Helpers.Config;
+using IguanaBot.Helpers.Messages;
 using IguanaBot.Services.Interfaces;
 
 namespace IguanaBot.Services.Pokedollar
@@ -33,7 +34,7 @@ namespace IguanaBot.Services.Pokedollar
             });
 
             bool taskCompletedSuccessfully = task.Wait(TimeSpan.FromSeconds(3));
-            return taskCompletedSuccessfully ? CreateMessageWithCorrectInformation(exchangeRate) : CreateErrorMessage();
+            return taskCompletedSuccessfully ? CreateMessageWithCorrectInformation(exchangeRate) : ErrorMessageCreator.CreateErrorMessageDiscordEmbed();
         }
 
         public async Task<DiscordEmbedBuilder> GetExchangeRateForThisDate(string date)
@@ -45,7 +46,7 @@ namespace IguanaBot.Services.Pokedollar
             });
 
             bool taskCompletedSuccessfully = task.Wait(TimeSpan.FromSeconds(5));
-            return taskCompletedSuccessfully ? CreateMessageWithCorrectInformation(exchangeRate) : CreateErrorMessage();
+            return taskCompletedSuccessfully ? CreateMessageWithCorrectInformation(exchangeRate) : ErrorMessageCreator.CreateErrorMessageDiscordEmbed();
         }
 
         private DiscordEmbedBuilder CreateMessageWithCorrectInformation(string exchangeRate)
@@ -59,17 +60,6 @@ namespace IguanaBot.Services.Pokedollar
                 Title = $"1 dolar = {exchangeRate} reais",
                 Description = $"Pokedex numero {pokedexNumber} = {pokemonName}!",
                 ImageUrl = pokemonImageLink
-            };
-
-            return message;
-        }
-
-        private DiscordEmbedBuilder CreateErrorMessage()
-        {
-            var message = new DiscordEmbedBuilder
-            {
-                Title = $"Houve algum erro...",
-                Description = $"Por favor entre em contato com o caco macaco.",
             };
 
             return message;

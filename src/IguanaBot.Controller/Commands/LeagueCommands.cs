@@ -38,6 +38,14 @@ namespace IguanaBot.Controller.Commands
             await SendMessageWithTeam(ctx, teams[1], 1);
         }
 
+        [Command("time-normal")]
+        [Description("Time pronto pro normal game classico das iguanas.")]
+        public async Task TimeNormalGame(CommandContext ctx)
+        {
+            var team = _serviceProvider.GetATeamWithOneChampionFromEachRole();
+            await SendMessageWithTeam(ctx, team, 0);
+        }
+
         private async Task SendMessageWithTeam(CommandContext ctx, string team, int teamIndex)
         {
             var message = new DiscordEmbedBuilder

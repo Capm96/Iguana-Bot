@@ -52,6 +52,19 @@ namespace IguanaBot.Services.Tests.LeagueTests
         }
 
         [Test]
+        public void GetOneTeamForNormalGame_WorksAsExpected()
+        {
+            // Arrange - 
+            var test = string.Empty;
+
+            // Act - 
+            test = _leagueServiceProvider.GetATeamWithOneChampionFromEachRole();
+
+            // Assert -
+            Assert.True(test.Length > 20);
+        }
+
+        [Test]
         public void CheckForRepeatedChamps_WorksAsExpected()
         {
             // Arrange - 

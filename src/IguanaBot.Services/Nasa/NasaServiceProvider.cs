@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Apod;
 using DSharpPlus.Entities;
 using IguanaBot.Helpers.Config;
+using IguanaBot.Helpers.Messages;
 using IguanaBot.Services.Interfaces;
 
 namespace IguanaBot.Services.Nasa
@@ -34,10 +35,7 @@ namespace IguanaBot.Services.Nasa
         {
             if (result.StatusCode != ApodStatusCode.OK)
             {
-                return new DiscordEmbedBuilder
-                {
-                    Title = "",
-                };
+                return ErrorMessageCreator.CreateErrorMessageDiscordEmbed();
             }
             else if (result.Content.MediaType == MediaType.Video)
             {

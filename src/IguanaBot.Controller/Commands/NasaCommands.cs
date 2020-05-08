@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IguanaBot.Controller.Commands
 {
-    public class NasaCommands : BaseCommandModule
+    public class NasaCommands
     {
         private INasaServiceProvider _serviceProvider = ServiceFactory.GetNasaServiceProvider();
 

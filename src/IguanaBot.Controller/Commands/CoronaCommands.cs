@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IguanaBot.Controller.Commands
 {
-    public class CoronaCommands : BaseCommandModule
+    public class CoronaCommands
     {
         private readonly ICoronaServiceProvider _serviceProvider = ServiceFactory.GetCoronaServiceProvider();
 

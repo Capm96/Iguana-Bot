@@ -10,7 +10,7 @@ namespace IguanaBot.Controller.Entry
     public class IguanaBot
     {
         public DiscordClient DiscordClient { get; private set; }
-        public CommandsNextExtension Commands { get; set; }
+        public CommandsNextModule Commands { get; set; }
 
         public async Task InitializeBot()
         {
@@ -39,9 +39,8 @@ namespace IguanaBot.Controller.Entry
         {
             var commandsConfig = new CommandsNextConfiguration
             {
-                StringPrefixes = new string[] { jsonConfig.Prefix },
+                StringPrefix = jsonConfig.Prefix,
                 EnableMentionPrefix = true,
-                DmHelp = false,
                 CaseSensitive = false
             };
 

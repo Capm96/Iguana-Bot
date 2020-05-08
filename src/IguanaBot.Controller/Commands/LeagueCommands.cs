@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IguanaBot.Controller.Commands
 {
-    public class LeagueCommands : BaseCommandModule
+    public class LeagueCommands
     {
         private readonly ILeagueServiceProvider _serviceProvider = ServiceFactory.GetLeagueServiceProvider();
 

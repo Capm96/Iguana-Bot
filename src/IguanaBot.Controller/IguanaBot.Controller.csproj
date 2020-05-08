@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="3.2.3" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="3.2.3" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="3.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IguanaBot.Entities\IguanaBot.Entities.csproj" />
     <ProjectReference Include="..\IguanaBot.Helpers\IguanaBot.Helpers.csproj" />
     <ProjectReference Include="..\IguanaBot.Services\IguanaBot.Services.csproj" />

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IguanaBot.Controller.Commands
 {
-    public class PokedollarCommands : BaseCommandModule
+    public class PokedollarCommands
     {
         private readonly IPokedollarServiceProvider _serviceProvider = ServiceFactory.GetPokedollarServiceProvider();
 
